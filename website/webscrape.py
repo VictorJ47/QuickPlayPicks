@@ -35,7 +35,17 @@ platform_dropdown.select_by_visible_text(user_platform)
 genre_selector = Select(driver.find_element(By.NAME, "search_genre"))
 genre_selector.select_by_visible_text(genre)
 
-    
+game_titles = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, "text_white")))
+game_titles = driver.find_elements(By.CLASS_NAME, "text_white")
+game_titles_list = [title.text.strip() for title in game_titles]
+
+
+num = 0
+exclusions = ["Main Story", "Main + Extra", "Completionist"]
+for t, title in enumerate(game_titles_list, 1):
+    if title not in exclusions:
+        num += 1
+        print(f"{num}. {title}")
 
 
 time.sleep(20)
