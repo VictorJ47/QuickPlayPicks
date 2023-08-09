@@ -44,11 +44,29 @@ soup = BeautifulSoup(html_content, "html.parser")
 
 game_titles = soup.find_all(lambda tag: tag.name == "a" and tag.get("class") == ["text_white"])
 
+game_info_dict = {}
+
+
+
+for title in game_titles:
+    game_name = title.text.strip()
+    game = driver.find_element(By.PARTIAL_LINK_TEXT, game_name)
+    game.click()
+    
+    game_desc = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".GameSummary_profile_info__HZFQu.GameSummary_large__TIGhL")))
+    desc = game_desc.text.strip()
+    game_info_dict[game_name] = desc
+    
+    search_options = WebDriverWait(driver, 10).until( EC.element_to_be_clickable((By.CSS_SELECTOR, ".MainNavigation_search_box__UUnYc.back_form")))
+    search_options.click()
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".SearchOptions_search_tab__iDtf_.back_blue.center.shadow_box")))
+    
+print(game_info_dict.items())
 # print("TITLE")
 # print(game_titles.text.strip())
     
-for idx, title in enumerate(game_titles, 1):
-    print(f"{idx}. {title.text.strip()}")
+# for idx, title in enumerate(game_titles, 1):
+#     print(f"{idx}. {title.text.strip()}")
 
 #exclusions = ["Main Story", "Main + Extra", "Completionist"]
 
