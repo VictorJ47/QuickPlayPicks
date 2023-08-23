@@ -43,7 +43,7 @@
   }
   
   /*---------------------------------------------*/
-  a {
+  /* a {
       font-family: Poppins-Regular;
       font-size: 14px;
       line-height: 1.7;
@@ -62,7 +62,7 @@
   a:hover {
       text-decoration: none;
     color: #fff;
-  }
+  } */
   
   /*---------------------------------------------*/
   h1,h2,h3,h4,h5,h6 {
@@ -159,7 +159,6 @@
   
   .container-login100 {
     width: 100%;  
-    min-height: 100vh;
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -168,7 +167,6 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    padding: 15px;
   
     background-repeat: no-repeat;
     background-position: center;
@@ -190,8 +188,7 @@
   }
   
   .wrap-login100 {
-    width: 500px;
-    border-radius: 10px;
+    width: 100%;
     overflow: hidden;
     padding: 55px 55px 37px 55px;
   
@@ -244,7 +241,7 @@
   [ Input ]*/
   
   .wrap-input100 {
-    width: 100%;
+    width: 27%;
     position: relative;
     border-bottom: 2px solid rgba(255,255,255,0.24);
     margin-bottom: 30px;
