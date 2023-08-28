@@ -7,6 +7,8 @@ from selenium.webdriver.support.ui import Select #for dropdowns
 from bs4 import BeautifulSoup
 import time
 
+#setting the values of user_platform and genre for the sake of testing.
+#values based on user input in actual application
 user_platform = "PlayStation 5"
 genre = "Action"
 driver = webdriver.Chrome()
@@ -34,11 +36,13 @@ platform_selector.click()
 platform_dropdown = Select(driver.find_element(By.CSS_SELECTOR, ".form_select.back_form"))
 platform_dropdown.select_by_visible_text(user_platform)
 
+#setting the genre
 genre_selector = Select(driver.find_element(By.NAME, "search_genre"))
 genre_selector.select_by_visible_text(genre)
 
 time.sleep(5)
 
+#using beautiful soup to gather game titles
 html_content = driver.page_source
 soup = BeautifulSoup(html_content, "html.parser")
 
@@ -47,66 +51,22 @@ game_titles = soup.find_all(lambda tag: tag.name == "a" and tag.get("class") == 
 game_info_dict = {}
 
 
-
+#creating a dictionary with game titles as keys and their description as the values
 for title in game_titles:
     game_name = title.text.strip()
     game = driver.find_element(By.PARTIAL_LINK_TEXT, game_name)
-    game.click()
+    game.click() #click the game in order to access the description
     
     game_desc = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".GameSummary_profile_info__HZFQu.GameSummary_large__TIGhL")))
     desc = game_desc.text.strip()
     game_info_dict[game_name] = desc
     
+    #return to the search menu/page for next iteration
     search_options = WebDriverWait(driver, 10).until( EC.element_to_be_clickable((By.CSS_SELECTOR, ".MainNavigation_search_box__UUnYc.back_form")))
     search_options.click()
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".SearchOptions_search_tab__iDtf_.back_blue.center.shadow_box")))
     
 print(game_info_dict.items())
-# print("TITLE")
-# print(game_titles.text.strip())
-    
-# for idx, title in enumerate(game_titles, 1):
-#     print(f"{idx}. {title.text.strip()}")
-
-#exclusions = ["Main Story", "Main + Extra", "Completionist"]
-
-# for title in game_titles:
-
-#     if title in exclusions:
-#         game_titles.remove(title)
-# game_info_dict = {}
-
-# for title in game_titles:
-#     game_info_dict[title.text.strip()] = ""
-
-# print("TITLE: ")
-# print(title_elements[0])
-# print(title_elements[1])
-
-# game = game_titles[1]
-# game.click()
-# game_desc = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".GameSummary_profile_info__HZFQu.GameSummary_large__TIGhL")))
-# desc = game_desc.text.strip()
-# game_info_dict[game_title] = desc
-# print(desc)
-    
-# search_options = WebDriverWait(driver, 10).until( EC.element_to_be_clickable((By.CSS_SELECTOR, ".MainNavigation_search_box__UUnYc.back_form")))
-# search_options.click()
-# WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".SearchOptions_search_tab__iDtf_.back_blue.center.shadow_box")))
-
-
-    
-# for idx, (title, game_descriptions) in enumerate(game_info_dict.items(), 1):
-#     print(f"{idx}. {title}:")
-#     print(game_descriptions)
-#     print("-" * 80)
-
-# num = 0
-# exclusions = ["Main Story", "Main + Extra", "Completionist"]
-# for t, title in enumerate(game_titles_list, 1):
-#     if title not in exclusions:
-#         num += 1
-#         print(f"{num}. {title}")
 
 
 time.sleep(20)
